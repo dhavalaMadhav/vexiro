@@ -10,6 +10,8 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        urbanist: ["Urbanist", "sans-serif"],
+       syne: ["Syne", "sans-serif"]
       }
     },
   },

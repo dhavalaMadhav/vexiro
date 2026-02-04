@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion, useScroll, useTransform, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import tech1 from '../assets/hero/tech_1.png';
 import tech2 from '../assets/hero/tech_2.png';
 import tech3 from '../assets/hero/tech_3.png';
@@ -58,22 +58,22 @@ const Hero = () => {
   const { scrollY } = useScroll();
   
   // Mouse tracking for subtle depth
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
+
+  const words = ["Websites.", "Web Apps.", "Brands.", "Interfaces.", "Experiences."];
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      const { clientX, clientY } = e;
-      const { innerWidth, innerHeight } = window;
-      mouseX.set(clientX - innerWidth / 2);
-      mouseY.set(clientY - innerHeight / 2);
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mouseX, mouseY]);
-  
+    // Slight initial delay to let entrance animation finish
+    const startTimeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        setIndex((prev) => (prev + 1) % words.length);
+      }, 3500); // Slower, calm rhythm
+      return () => clearInterval(interval);
+    }, 2000);
+    
+    return () => clearTimeout(startTimeout);
+  }, []);
+
   const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
   const heroScale = useTransform(scrollY, [0, 500], [1, 0.95]);
   const heroY = useTransform(scrollY, [0, 500], [0, 100]);
@@ -109,6 +109,17 @@ const Hero = () => {
       }
     }
   };
+  const underlineDraw = {
+  hidden: { scaleX: 0, originX: 0 },
+  visible: {
+    scaleX: 1,
+    transition: {
+      duration: 0.9,
+      delay: 1.6,
+      ease: [0.16, 1, 0.3, 1]
+    }
+  }
+};
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -133,18 +144,6 @@ const Hero = () => {
 
   return (
     <section id="home" className="relative w-full h-screen bg-[#050507] text-white overflow-hidden font-sans">
-      
-      {/* OPTIONAL DEPTH ENHANCEMENT */}
-      <motion.div 
-        className="absolute inset-0 z-0 pointer-events-none transition-opacity duration-1000"
-        style={{ 
-          opacity: heroOpacity,
-          background: useTransform(
-            [springX, springY],
-            ([x, y]) => `radial-gradient(circle at calc(50% + ${x}px) calc(50% + ${y}px), rgba(255,255,255,0.06) 0%, transparent 40%)`
-          )
-        }}
-      />
 
       {/* 1. PREMIUM HEADER LAYER */}
       <motion.header 
@@ -199,54 +198,62 @@ const Hero = () => {
             </motion.p>
             
             {/* INNER HEADLINE WRAPPER (MANDATORY SAFE BOUNDS) */}
-            <div className="relative overflow-visible py-4 pb-6 w-full">
+            <div className="relative overflow-visible py-4 pb-6 w-full max-w-[720px]">
               <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white flex flex-col gap-2 overflow-visible"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white inline-block relative overflow-visible leading-[1.35] tracking-normal"
               >
-                {/* LINE 1 WRAPPER */}
-                <div className="block relative overflow-visible">
-                  <div className="block relative overflow-hidden min-h-[1.3em]">
-                    <motion.span
-  variants={lineVariants}
-  className="block leading-[1.1] break-normal"
->
-  We Design, Build & Deliver
-</motion.span>
+                  {/* MAIN TEXT WITH ROTATOR INLINE */}
+                   <motion.div 
+                      variants={lineVariants}
+                      className="inline"
+                   >
+                      <span className="inline mr-[0.4em]">We Design, Build & Deliver</span>
+                      
+                      {/* ROTATOR CONTAINER (INLINE BLOCK) */}
+<span className="inline-flex relative h-[1.3em] items-center overflow-hidden min-w-[7ch] ml-1">
+                        {/* INVISIBLE PLACEHOLDER FOR LAYOUT STABILITY */}
+                        <span className="block italic font-cursive opacity-0 select-none whitespace-nowrap h-full leading-none">
 
-                  </div>
-                </div>
+                          Experiences.
+                        </span>
+                        
+                        {/* ANIMATED ROTATING WORD */}
+                        <AnimatePresence mode="wait">
+                          <motion.span 
+                            key={words[index]}
+                            initial={{ y: "40%", opacity: 0, filter: "blur(4px)" }}
+                            animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+                            exit={{ y: "-40%", opacity: 0, filter: "blur(4px)" }}
+                            transition={{ 
+                              duration: 0.8,
+                              ease: [0.16, 1, 0.3, 1] 
+                            }}
+                            
+className="absolute left-0 top-1 block italic font-cursive text-[#f2f2f2] whitespace-nowrap"
+                          >
+                            
+                            {words[index]}
+                            {/* UNDERLINE */}
+                            <motion.span
+                              variants={underlineVariants}
+                              initial="hidden"
+                              animate="visible"
+                              className="absolute left-0 -bottom-[2px] h-[1px] w-full bg-white/40 origin-left"
+                            />
+                          </motion.span>
+                          
+                        </AnimatePresence>
 
-                {/* LINE 2 WRAPPER (CURSIVE) */}
-                <div className="block relative overflow-visible pb-2">
-                  <div className="block relative overflow-hidden min-h-[1.6em]">
-                   <motion.span 
-  variants={lineVariants} 
-  className="block italic font-cursive text-white/95 opacity-90 leading-[1.3] pb-2 break-normal"
->
-
-                      High-Quality <span className="font-sans italic-none not-italic">Digital Products.</span>
-                      <motion.div 
-                        variants={underlineVariants}
-                        className="absolute bottom-2 left-0 w-32 md:w-48 h-[1px] bg-white/30" 
-                      />
-                    </motion.span>
-                  </div>
-                </div>
+                      </span>
+                   </motion.div>
               </motion.h1>
             </div>
 
             <motion.p 
               variants={itemVariants} 
-              className="text-sm md:text-base text-white/60 font-light mb-6 leading-relaxed max-w-md"
+              className="text-sm md:text-base text-white/60 font-medium mb-6 leading-relaxed max-w-lg"
             >
-              From websites and web applications to branding, UI/UX, and digital experiences — we help businesses build products that look premium, work flawlessly, and scale with confidence.
-            </motion.p>
-
-            <motion.p 
-              variants={itemVariants} 
-              className="text-[10px] tracking-widest uppercase text-white/30 mb-8 font-medium"
-            >
-              Focused on performance, precision, and long-term value.
+              From websites and web applications to branding and UI/UX — we help businesses build products that look premium, work flawlessly, and scale with confidence.
             </motion.p>
 
             <motion.div 
@@ -270,7 +277,7 @@ const Hero = () => {
         </motion.div>
 
         {/* RIGHT COLUMN: BENTO GRID (STABLE BOUNDS) */}
-       <div className="h-full flex items-center justify-end overflow-visible pointer-events-none relative pl-2 lg:pl-6 -translate-x-4 lg:-translate-x-8">
+<div className="h-full flex items-center justify-end overflow-visible pointer-events-none relative pl-0 lg:pl-0 -translate-x-16 lg:-translate-x-24">
 
           <motion.div 
             className="group grid grid-cols-2 gap-4 h-[110vh] -rotate-12 scale-75 opacity-60 w-[100%] origin-right transition-opacity duration-500"
