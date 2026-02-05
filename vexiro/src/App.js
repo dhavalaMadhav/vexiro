@@ -4,7 +4,6 @@ import Services from './components/Services';
 import BackgroundSystem from './components/BackgroundSystem';
 import Work from './components/Work';
 import SectionNav from './components/SectionNav';
-import CTA from './components/CTA';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
@@ -16,8 +15,7 @@ function App() {
       <div className="relative z-10">
         <Hero />
         <Services />
-        <Work/>
-        <CTA />
+        <Work />
         <Contact />
         <Footer />
       </div>
