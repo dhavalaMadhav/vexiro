@@ -194,7 +194,7 @@ const Services = () => {
     [0, 0.12, 0]
   );
 
-  const curveD = useMotionTemplate`M 0 ${curveDepth} Q 0.5 0 1 ${curveDepth} L 1 1 L 0 1 Z`;
+
 
   return (
     <>

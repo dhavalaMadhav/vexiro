@@ -105,17 +105,8 @@ const Hero = () => {
       }
     }
   };
-  const underlineDraw = {
-    hidden: { scaleX: 0, originX: 0 },
-    visible: {
-      scaleX: 1,
-      transition: {
-        duration: 0.9,
-        delay: 1.6,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
+
+
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
