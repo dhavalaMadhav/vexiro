@@ -73,7 +73,9 @@ const Footer = () => {
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           © {currentYear} VEXAMO. All Rights Reserved.
           <div className="flex gap-8">
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a href="#" className="text-white/30 hover:text-white text-[10px] uppercase tracking-widest transition-colors">Privacy Policy</a>
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a href="#" className="text-white/30 hover:text-white text-[10px] uppercase tracking-widest transition-colors">Terms of Service</a>
           </div>
         </div>

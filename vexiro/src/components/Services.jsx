@@ -1,5 +1,5 @@
 import React, { useRef, useMemo } from 'react';
-import { motion, useScroll, useTransform, useMotionTemplate } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 // --- Sub-Components for Services Visuals ---
 
@@ -181,18 +181,7 @@ const Services = () => {
 
   // --- Curve Implementation ---
 
-  // Track the entry of the section into the viewport
-  const { scrollYProgress: entryProgress } = useScroll({
-    target: wrapperRef,
-    offset: ["start end", "start start"]
-  });
 
-  // Map scrolling to curve depth
-  const curveDepth = useTransform(
-    entryProgress,
-    [0, 0.5, 1],
-    [0, 0.12, 0]
-  );
 
 
 

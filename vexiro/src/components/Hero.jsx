@@ -54,10 +54,12 @@ const BentoColumn = ({ images, speed = 20, reverse = false }) => {
 
 // --- Main Hero Component ---
 
+const words = ["Websites.", "Web Apps.", "Brands.", "Interfaces.", "Experiences."];
+
 const Hero = () => {
   // Mouse tracking for subtle depth
 
-  const words = ["Websites.", "Web Apps.", "Brands.", "Interfaces.", "Experiences."];
+
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -94,17 +96,7 @@ const Hero = () => {
     }
   };
 
-  const underlineVariants = {
-    hidden: { scaleX: 0, originX: 0 },
-    visible: {
-      scaleX: 1,
-      transition: {
-        duration: 0.8,
-        delay: 1.2,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
+
 
 
 
