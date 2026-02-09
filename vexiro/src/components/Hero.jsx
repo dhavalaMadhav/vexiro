@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { motion, AnimatePresence, useMotionValue, useAnimationFrame, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useAnimationFrame } from 'framer-motion';
 import tech1 from '../assets/hero/tech_1.png';
 import tech2 from '../assets/hero/tech_2.png';
 import tech3 from '../assets/hero/tech_3.png';

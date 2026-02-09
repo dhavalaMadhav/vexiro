@@ -11,7 +11,6 @@ const sections = [
 
 const MobileNav = () => {
     const [activeSection, setActiveSection] = useState('home');
-    const [showScrollTop, setShowScrollTop] = useState(false);
     const { scrollY } = useScroll();
     const rotate = useTransform(scrollY, (value) => value / 3);
     // Actually reusing App.js gear logic:
