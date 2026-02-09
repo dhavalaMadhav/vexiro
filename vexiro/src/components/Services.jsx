@@ -487,32 +487,119 @@ const Services = () => {
         @media (max-width: 1024px) {
           .service-block.layout-normal,
           .service-block.layout-reverse {
-            flex-direction: column;
-            gap: 24px; /* Reduced gap */
-            text-align: center;
-            padding: 20px 0; /* Reduced padding */
-            min-height: auto; /* Allow auto height */
+            flex-direction: column; /* Changed from column-reverse to column */
+            gap: 24px;
+            text-align: left;
+            padding: 20px 0;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: flex-start;
           }
-           .service-details-wrapper h3 { font-size: 1.5rem; margin-bottom: 0.5rem; } /* Compact title */
-           .service-details-wrapper p { margin: 0 auto 1rem; font-size: 0.8rem; line-height: 1.4; } /* Compact text */
+           
+           /* Ordering Logic for Mobile */
+           .service-details-wrapper { order: 1; width: 100%; }
+           .service-visual-wrapper { order: 2; width: 100%; }
+           /* Mobile Button is duplicated in JSX, handled there */
+
+           .service-details-wrapper h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+           .service-details-wrapper p { margin: 0 0 1rem 0; font-size: 0.8rem; line-height: 1.4; }
+           
+           /* Show 3 points instead of 2 */
+           .service-features-services li:nth-child(n+4) {
+             display: none;
+           }
+           
            .service-features-services { text-align: left; display: inline-block; font-size: 0.8rem; margin-bottom: 1rem; }
-           .service-feature-item-services { margin-bottom: 4px; padding-left: 16px; } /* Compact list */
-           .service-link-services { margin: 0 auto; }
+           
+           /* Gap Reduction */
+           .section-header-container {
+             margin-bottom: 40px;
+           }
+           
+           .service-feature-item-services { margin-bottom: 4px; padding-left: 16px; }
+           .service-link-services { margin: 0; }
            
            /* Reset specific reverse alignments for mobile */
            .layout-reverse .service-details-wrapper {
-             align-items: center;
-             padding-left: 0; /* Reset for mobile */
+             align-items: flex-start;
+             padding-left: 0;
+             text-align: left;
            }
-           .layout-reverse .service-features-services { align-items: flex-start; } /* Center/Left on mobile typically */
+           .layout-reverse .service-features-services { align-items: flex-start; }
            .layout-reverse .service-feature-li-services { padding-left: 28px; padding-right: 0; flex-direction: row; text-align: left; }
            .layout-reverse .service-feature-li-services::before { left: 0; right: auto; transform: translateY(-50%) rotate(45deg); }
+           
            /* Compact Visuals for Mobile */
-           .editor-container-services, 
-           .logo-design-visual-services,
+           .service-visual-wrapper {
+             width: 100%;
+             display: flex;
+             justify-content: center;
+             margin-bottom: 20px;
+           }
+           
+           .visual-container-services {
+             padding: 16px;
+             width: 100%;
+           }
+
+           /* Video Edit: Refined for Mobile */
            .video-editor-container-services {
-             height: 250px; /* Reduced height for visuals */
-             transform: scale(0.9);
+             height: auto;
+             width: 100%;
+             transform: none;
+             aspect-ratio: 16/9;
+             margin: 0;
+           }
+           /* Ensure internal video elements scale with width */
+           .video-preview-services { flex: 1; min-height: 150px; }
+           .video-timeline-services { height: 60px; min-height: 60px; }
+
+           /* Logo Design: Column layout */
+           .logo-design-visual-services {
+             flex-direction: column;
+             justify-content: center;
+             gap: 16px;
+             text-align: center;
+           }
+           
+           /* Web Dev Specific */
+           .web-dev .service-visual-container {
+             max-height: 45vh;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+           }
+           
+           
+           /* Remove box/background for Web Dev on Mobile - RESTORED to Standard but ensured no double layering */
+           .web-dev .visual-container-services {
+             /* User said: "behind the box... there's a light box seen behind... i want it clean"
+                Then in Round 5: "nontext card in wesite development should have proper padding and border radius"
+                So I will use the standard .visual-container-services styles but ensure no double-background on inner elements.
+             */
+             padding: 16px;
+             border-radius: 24px;
+             /* Ensure standard glass settings from .visual-container-services apply */
+             background: rgba(255, 255, 255, 0.03);
+             overflow: hidden;
+           }
+           .web-dev .code-window-header-services {
+             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+             margin-bottom: 12px;
+             padding-bottom: 8px;
+           }
+           .web-dev .visual-container-services {
+             max-height: 100%;
+             overflow: hidden;
+           }
+           .web-dev .code-content-services {
+             font-size: 11px; /* Smaller font */
+             text-align: left !important; /* Force left align */
+             line-height: 1.4;
+           }
+           .web-dev .code-window-header-services {
+             margin-bottom: 12px;
+             padding-bottom: 8px;
            }
         }
       `}</style>
@@ -556,7 +643,7 @@ const Services = () => {
               return (
                 <motion.div
                   key={idx}
-                  className={`service-block ${layoutClass}`}
+                  className={`service-block ${layoutClass} ${service.type}`}
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
@@ -574,7 +661,7 @@ const Services = () => {
 
                   {/* Content Side */}
                   <div className="service-details-wrapper">
-                    <h3 className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">{service.title}</h3>
+                    <h3 className="text-3xl md:text-5xl font-bold tracking-tighter uppercase bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">{service.title}</h3>
                     <p>{service.desc}</p>
                     <ul className="service-features-services">
                       {service.features.map((feature, fIdx) => (
@@ -583,20 +670,26 @@ const Services = () => {
                         </li>
                       ))}
                     </ul>
+                    {/* Main Button - Visible on Mobile (under text) and Desktop */}
                     <button
-                      className="service-link-services"
+                      className="service-link-services w-auto lg:w-auto justify-center lg:justify-start mt-4 lg:mt-0"
                       onClick={() => window.location.href = `mailto:hello@vixora.com?subject=Inquiry: ${service.title}`}
                     >
                       Explore {service.title.split(' ')[0]} Services
                     </button>
                   </div>
 
-                </motion.div>
+
+
+                  {/* Mobile Partition Line - Centered in Gap */}
+                  <div className="absolute -bottom-3 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent lg:hidden" />
+
+                </motion.div >
               );
             })}
-          </div>
-        </motion.section>
-      </div>
+          </div >
+        </motion.section >
+      </div >
     </>
   );
 };

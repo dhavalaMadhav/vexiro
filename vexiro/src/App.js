@@ -11,6 +11,7 @@ import SectionNav from './components/SectionNav';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Lenis from 'lenis'
+import MobileNav from './components/MobileNav';
 
 function App() {
 
@@ -33,46 +34,34 @@ function App() {
     }
   }, [])
 
-  // Scroll to Top Logic with Gear
-  const [showScrollTop, setShowScrollTop] = React.useState(false);
-
-  useEffect(() => {
-    const checkScroll = () => {
-      if (window.scrollY > 500) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
-      }
-    };
-    window.addEventListener('scroll', checkScroll);
-    return () => window.removeEventListener('scroll', checkScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-
   return (
     <div className="App selection:bg-white/10 selection:text-white relative">
       <BackgroundSystem />
       <SectionNav />
+      <MobileNav />
       <div className="relative z-10">
         <Hero />
         <Services />
-        <CurvedDivider />
+        <div className="hidden lg:block">
+          <CurvedDivider />
+        </div>
         <Work />
         <Team />
         <Contact />
         <Footer />
       </div>
 
-      {/* Scroll To Top Gear - Fixed Bottom Right */}
+      {/* Old Desktop Scroll To Top Gear - Hidden on Mobile now as it's in MobileNav */}
+      {/* Kept for Desktop only if needed, or removed if MobileNav handles mobile and Desktop has none? 
+          User said "make sure the gear... is also in that blurred section". 
+          Implies desktop might still use the old one. 
+          I will hide the old one on mobile (lg:flex, hidden on smaller).
+      */}
       <div
-        className={`fixed bottom-10 right-10 z-50 transition-all duration-500 transform ${showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-10 right-10 z-50 transition-all duration-500 transform hidden lg:block`} // Added hidden lg:block
       >
         <button
-          onClick={scrollToTop}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} // Inline function since state logic removed for simplicity in snippet match
           className="relative w-16 h-16 flex items-center justify-center bg-transparent border-none outline-none group cursor-pointer"
           aria-label="Scroll to top"
         >

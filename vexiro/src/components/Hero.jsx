@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion, AnimatePresence, useMotionValue, useAnimationFrame, useTransform } from 'framer-motion';
 import tech1 from '../assets/hero/tech_1.png';
 import tech2 from '../assets/hero/tech_2.png';
 import tech3 from '../assets/hero/tech_3.png';
@@ -9,7 +9,7 @@ import tech6 from '../assets/hero/tech_6.png';
 
 // --- Scrolling Bento Column Component ---
 const BentoColumn = ({ images, speed = 20, reverse = false }) => {
-  const [isHovered, setIsHovered] = React.useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
@@ -34,19 +34,91 @@ const BentoColumn = ({ images, speed = 20, reverse = false }) => {
         }}
         className="flex flex-col gap-4"
       >
-        {[...images, ...images].map((img, i) => (
-          <div
-            key={i}
-            className="relative rounded-2xl overflow-hidden group aspect-[3/4] md:aspect-square transition-all duration-500"
-          >
-            <img
-              src={img}
-              alt="Work Preview"
-              className="w-full h-full object-cover opacity-100 group-hover:opacity-100 transition-all duration-700 scale-110 group-hover:scale-100"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          </div>
-        ))}
+        {[...images, ...images].map((img, i) => {
+          // Mixed Aspect Ratios for Desktop
+          const isWide = i % 3 === 0;
+          const isSquare = i % 3 === 1;
+          const isTall = i % 3 === 2;
+
+          let aspectClass = "aspect-[3/4]";
+          if (isWide) aspectClass = "aspect-video"; // Wide
+          if (isSquare) aspectClass = "aspect-square"; // Square
+          if (isTall) aspectClass = "aspect-[3/5]"; // Tall
+
+          return (
+            <div
+              key={i}
+              className={`relative rounded-2xl overflow-hidden group ${aspectClass} transition-all duration-500 w-full`}
+            >
+              <img
+                src={img}
+                alt="Work Preview"
+                className="w-full h-full object-cover opacity-100 group-hover:opacity-100 transition-all duration-700 scale-110 group-hover:scale-100"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
+          );
+        })}
+      </motion.div>
+    </div>
+  );
+};
+
+// --- Horizontal Scrolling Bento Row (Mobile) ---
+// Using marquee logic for seamless swipe/scroll
+const MobileBentoRow = ({ images, speed = 20, reverse = false }) => {
+  const baseX = useMotionValue(0);
+  const containerRef = useRef(null);
+
+  // Clone images for infinite loop (enough to cover wide screens)
+  const duplicatedImages = [...images, ...images, ...images, ...images];
+
+  useAnimationFrame((t, delta) => {
+    let moveBy = (speed * delta) / 1000;
+    if (reverse) moveBy = -moveBy;
+
+    // Move
+    baseX.set(baseX.get() - moveBy);
+  });
+
+  return (
+    <div className="flex flex-row gap-3 overflow-hidden relative w-full h-full items-end pb-10" ref={containerRef}>
+      <motion.div
+        className="flex flex-row gap-3 h-40 cursor-grab active:cursor-grabbing"
+        drag="x"
+        // Bind drag directly to the motion value to combine auto-scroll + drag
+        style={{ x: baseX }}
+        dragConstraints={{ left: -1000, right: 0 }} // Loose constraints, marquee handles visuals
+        onDragEnd={() => {
+          // Optional: momentum or snap logic could go here
+        }}
+      >
+        {duplicatedImages.map((img, i) => {
+          // Mixed Aspect Ratios for "Real Bento" feel
+          const isWide = i % 3 === 0;
+          const isSquare = i % 3 === 1;
+          const isTall = i % 3 === 2;
+
+          let aspectClass = "aspect-[3/4]";
+          let widthClass = "min-w-[120px]";
+
+          if (isWide) { aspectClass = "aspect-video"; widthClass = "min-w-[200px]"; }
+          if (isSquare) { aspectClass = "aspect-square"; widthClass = "min-w-[160px]"; }
+          if (isTall) { aspectClass = "aspect-[3/5]"; widthClass = "min-w-[100px]"; }
+
+          return (
+            <div
+              key={i}
+              className={`relative rounded-xl overflow-hidden ${aspectClass} ${widthClass} flex-shrink-0`}
+            >
+              <img
+                src={img}
+                alt="Work Preview"
+                className="w-full h-full object-cover opacity-90 pointer-events-none" // Prevent img drag interference
+              />
+            </div>
+          );
+        })}
       </motion.div>
     </div>
   );
@@ -57,24 +129,18 @@ const BentoColumn = ({ images, speed = 20, reverse = false }) => {
 const words = ["Websites.", "Web Apps.", "Brands.", "Interfaces.", "Experiences."];
 
 const Hero = () => {
-  // Mouse tracking for subtle depth
-
-
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    // Slight initial delay to let entrance animation finish
     const startTimeout = setTimeout(() => {
       const interval = setInterval(() => {
         setIndex((prev) => (prev + 1) % words.length);
-      }, 3500); // Slower, calm rhythm
+      }, 3500);
       return () => clearInterval(interval);
     }, 2000);
 
     return () => clearTimeout(startTimeout);
   }, []);
-
-
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -95,10 +161,6 @@ const Hero = () => {
       }
     }
   };
-
-
-
-
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -124,17 +186,16 @@ const Hero = () => {
   return (
     <section id="home" className="relative w-full h-screen bg-transparent text-white overflow-hidden font-sans">
 
-      {/* 1. PREMIUM HEADER LAYER - PRESERVED NAV BAR (NO BACKGROUND/BORDER) */}
+      {/* 1. PREMIUM HEADER LAYER - PRESERVED NAV BAR */}
       <motion.header
         className="absolute top-0 left-0 w-full z-50 px-8 md:px-12 py-5 flex items-center justify-between pointer-events-auto"
-        style={{}}
       >
         <div className="flex items-center gap-4">
           <img src="/vexamo.svg" alt="Vexamo" className="w-10 h-10 object-contain invert brightness-0" />
           <span className="text-xl font-black tracking-tighter text-white/95 uppercase font-sans">VEXAMO</span>
         </div>
 
-        {/* Desktop Nav - PRESERVED STYLE (No liquid-morph, just links) */}
+        {/* Desktop Nav */}
         <nav className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-8 py-3 transition-all duration-500">
           {['Our Services', 'Projects', 'Contact'].map((item) => {
             const id = item.toLowerCase().replace(' ', '-');
@@ -157,17 +218,16 @@ const Hero = () => {
       </motion.header>
 
       {/* MAIN TWO-COLUMN LAYOUT */}
-      <div className="relative z-10 w-full h-full grid grid-cols-1 lg:grid-cols-[55%_45%] items-center px-6 md:px-12 lg:px-20 gap-12">
+      <div className="relative z-10 w-full h-full grid grid-cols-1 lg:grid-cols-[55%_45%] items-start lg:items-center px-6 md:px-12 lg:px-20 gap-12 pt-28 lg:pt-0">
 
-        {/* LEFT COLUMN: INFORMATION & BRANDING (SAFE ARCHITECTURE) */}
+        {/* LEFT COLUMN: INFORMATION & BRANDING */}
         <motion.div
-          className="flex flex-col justify-center h-screen overflow-x-visible overflow-y-visible relative w-full z-20 min-w-0"
+          className="flex flex-col justify-start lg:justify-center h-auto lg:h-screen overflow-visible relative w-full z-20 min-w-0 pb-48 lg:pb-0"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          style={{}}
         >
-          <div className="pointer-events-auto mt-16 w-full max-w-none lg:max-w-[48rem]">
+          <div className="pointer-events-auto w-full max-w-none lg:max-w-[48rem]">
 
             <motion.p
               variants={itemVariants}
@@ -176,27 +236,23 @@ const Hero = () => {
               Premium Digital Solutions
             </motion.p>
 
-            {/* INNER HEADLINE WRAPPER (MANDATORY SAFE BOUNDS) */}
+            {/* INNER HEADLINE WRAPPER */}
             <div className="relative overflow-visible py-4 pb-6 w-full max-w-[720px]">
               <motion.h1
                 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60 inline-block relative overflow-visible leading-[1.35] tracking-normal"
               >
-                {/* MAIN TEXT WITH ROTATOR INLINE */}
                 <motion.div
                   variants={lineVariants}
                   className="inline"
                 >
                   <span className="inline mr-[0.4em] bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">We Design, Build & Deliver</span>
 
-                  {/* ROTATOR CONTAINER (INLINE BLOCK) */}
+                  {/* ROTATOR */}
                   <span className="inline-flex relative h-[1.3em] items-center overflow-hidden min-w-[7ch] ml-1">
-                    {/* INVISIBLE PLACEHOLDER FOR LAYOUT STABILITY */}
                     <span className="block italic font-cursive opacity-0 select-none whitespace-nowrap h-full leading-none">
-
                       Experiences.
                     </span>
 
-                    {/* ANIMATED ROTATING WORD */}
                     <AnimatePresence mode="wait">
                       <motion.span
                         key={words[index]}
@@ -207,12 +263,9 @@ const Hero = () => {
                           duration: 0.8,
                           ease: [0.16, 1, 0.3, 1]
                         }}
-
                         className="absolute left-0 top-1 block italic font-cursive text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 whitespace-nowrap"
                       >
-
                         {words[index]}
-                        {/* SVG UNDERLINE */}
                         <div className="absolute -bottom-2 left-0 w-full h-3">
                           <svg viewBox="0 0 200 9" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
                             <motion.path
@@ -227,9 +280,7 @@ const Hero = () => {
                           </svg>
                         </div>
                       </motion.span>
-
                     </AnimatePresence>
-
                   </span>
                 </motion.div>
               </motion.h1>
@@ -262,9 +313,8 @@ const Hero = () => {
           </div>
         </motion.div>
 
-        {/* RIGHT COLUMN: BENTO GRID (STABLE BOUNDS) */}
-        <div className="h-full flex items-center justify-end overflow-visible pointer-events-none relative pl-0 lg:pl-0 -translate-x-16 lg:-translate-x-24">
-
+        {/* RIGHT COLUMN: BENTO GRID (DESKTOP) */}
+        <div className="hidden lg:flex h-full items-center justify-end overflow-visible pointer-events-none relative pl-0 lg:pl-0 -translate-x-16 lg:-translate-x-24">
           <motion.div
             className="group grid grid-cols-2 gap-4 h-[110vh] -rotate-12 scale-75 opacity-60 w-[100%] origin-right transition-opacity duration-500"
             variants={bentoVariants}
@@ -278,10 +328,14 @@ const Hero = () => {
 
       </div>
 
+      {/* MOBILE BENTO ROW (BOTTOM FIXED) */}
+      <div className="absolute bottom-24 left-0 w-full z-10 block lg:hidden pointer-events-none flex flex-col gap-3">
+        <MobileBentoRow images={col1} speed={25} />
+      </div>
+
       {/* SCROLL INDICATOR - HIDDEN ON MOBILE */}
       <motion.div
         className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-4 pointer-events-none z-10"
-        style={{}}
       >
         <span className="text-[10px] tracking-[0.4em] uppercase text-white/30 font-medium">Scroll to Explore</span>
         <motion.div

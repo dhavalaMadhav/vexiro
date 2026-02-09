@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 // Import logos
@@ -137,10 +137,12 @@ const ProjectCard = ({ project }) => {
     );
 };
 
-const LogoPill = ({ title, desc, color, logo, index }) => {
+const LogoPill = ({ title, desc, color, logo, index, isActive, onClick }) => {
     return (
         <div
-            className="relative flex items-center justify-end px-3 py-2 rounded-full overflow-hidden w-[160px] hover:w-[360px] flex-shrink-0 -ml-12 first:ml-0 group transition-all duration-500 shadow-2xl"
+            onClick={onClick}
+            className={`relative flex items-center justify-end px-3 py-2 rounded-full overflow-hidden flex-shrink-0 -ml-12 first:ml-0 group transition-all duration-500 shadow-2xl cursor-pointer md:cursor-default
+            ${isActive ? 'w-[360px]' : 'w-[160px]'} lg:w-[160px] lg:hover:w-[360px]`}
             style={{
                 background: `linear-gradient(90deg, ${color}33 0%, ${color}11 100%)`,
                 border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -148,8 +150,10 @@ const LogoPill = ({ title, desc, color, logo, index }) => {
                 zIndex: 100 - index
             }}
         >
-            {/* Text hidden initially, revealed on hover */}
-            <div className="flex flex-col gap-0.5 pr-6 text-right flex-1 opacity-0 w-0 group-hover:opacity-100 group-hover:w-auto transition-all duration-500 overflow-hidden whitespace-nowrap">
+            {/* Text hidden initially, revealed on hover (desktop) or active (mobile) */}
+            <div className={`flex flex-col gap-0.5 pr-6 text-right flex-1 overflow-hidden whitespace-nowrap transition-all duration-500
+                 ${isActive ? 'opacity-100 w-auto' : 'opacity-0 w-0'}
+                 lg:opacity-0 lg:w-0 lg:group-hover:opacity-100 lg:group-hover:w-auto`}>
                 <h4 className="text-white text-xl font-black tracking-tighter" style={{ color: color }}>{title}</h4>
                 <p className="text-white/50 text-[8px] font-bold uppercase tracking-[0.2em] leading-tight">{desc}</p>
             </div>
@@ -166,6 +170,7 @@ const LogoPill = ({ title, desc, color, logo, index }) => {
 };
 
 const WorkSection = () => {
+    const [activePillIndex, setActivePillIndex] = useState(-1);
     return (
         <section id="projects" className="relative w-full min-h-screen bg-transparent py-16 flex flex-col items-center">
 
@@ -247,36 +252,26 @@ const WorkSection = () => {
             </motion.div>
 
             {/* Logo Pill Layout - Reduced Bottom Spacing */}
-            <div className="relative z-20 flex w-full overflow-x-auto pb-4 scrollbar-hide px-8 md:px-16 mb-8 justify-center">
+            <div className="relative z-20 flex w-full overflow-x-auto pb-4 scrollbar-hide px-8 md:px-16 mb-8 justify-start md:justify-center">
                 <div className="flex flex-row items-center">
-                    <LogoPill
-                        index={0}
-                        title="TATV"
-                        desc="natural food products"
-                        color="#FF7A3D"
-                        logo={tatvLogo}
-                    />
-                    <LogoPill
-                        index={1}
-                        title="MAGIC SWIRLL"
-                        desc="icecream and desert shop"
-                        color="#8A3DFF"
-                        logo={magicswirllLogo}
-                    />
-                    <LogoPill
-                        index={2}
-                        title="UNIPICK"
-                        desc="university admission conpany"
-                        color="#409EFF"
-                        logo={unipickLogo}
-                    />
-                    <LogoPill
-                        index={3}
-                        title="MAGIC CLICKZZ"
-                        desc="digital photography"
-                        color="#ffffff"
-                        logo={magicClickzzLogo}
-                    />
+                    {/* Render LogoPills with active state logic */}
+                    {[
+                        { title: "TATV", desc: "natural food products", color: "#FF7A3D", logo: tatvLogo },
+                        { title: "MAGIC SWIRLL", desc: "icecream and desert shop", color: "#8A3DFF", logo: magicswirllLogo },
+                        { title: "UNIPICK", desc: "university admission conpany", color: "#409EFF", logo: unipickLogo },
+                        { title: "MAGIC CLICKZZ", desc: "digital photography", color: "#ffffff", logo: magicClickzzLogo }
+                    ].map((item, index) => (
+                        <LogoPill
+                            key={index}
+                            index={index}
+                            title={item.title}
+                            desc={item.desc}
+                            color={item.color}
+                            logo={item.logo}
+                            isActive={activePillIndex === index}
+                            onClick={() => setActivePillIndex(activePillIndex === index ? -1 : index)}
+                        />
+                    ))}
                 </div>
             </div>
 

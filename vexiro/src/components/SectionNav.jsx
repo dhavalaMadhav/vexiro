@@ -83,7 +83,7 @@ const SectionNav = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="md:hidden fixed top-6 right-6 z-[60] p-2 bg-black/50 backdrop-blur-md rounded-full border border-white/10"
+            className="hidden fixed top-6 right-6 z-[60] p-2 bg-black/50 backdrop-blur-md rounded-full border border-white/10"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <div className="space-y-1.5 w-6">

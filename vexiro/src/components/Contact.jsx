@@ -165,10 +165,10 @@ const Contact = () => {
                       required
                       className="w-full bg-transparent px-2 py-4 text-white placeholder-white/20 border-none outline-none ring-0 focus:ring-0 focus:outline-none text-sm font-light"
                     />
-                    {/* Tapered Bottom Border - Default */}
-                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                    {/* Tapered Bottom Border - Focus */}
-                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 transform scale-x-0 group-focus-within:scale-x-100" />
+                    {/* Simple Bottom Border - Default (Solid Line) */}
+                    <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/20" />
+                    {/* Simple Bottom Border - Focus (Solid Line) */}
+                    <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 transform scale-x-0 group-focus-within:scale-x-100 origin-left" />
                   </div>
                 </div>
 
@@ -186,10 +186,10 @@ const Contact = () => {
                       required
                       className="w-full bg-transparent px-2 py-4 text-white placeholder-white/20 border-none outline-none ring-0 focus:ring-0 focus:outline-none text-sm font-light"
                     />
-                    {/* Tapered Bottom Border - Default */}
-                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                    {/* Tapered Bottom Border - Focus */}
-                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 transform scale-x-0 group-focus-within:scale-x-100" />
+                    {/* Simple Bottom Border - Default (Solid Line) */}
+                    <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/20" />
+                    {/* Simple Bottom Border - Focus (Solid Line) */}
+                    <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 transform scale-x-0 group-focus-within:scale-x-100 origin-left" />
                   </div>
                 </div>
               </div>
@@ -208,10 +208,10 @@ const Contact = () => {
                     required
                     className="w-full bg-transparent px-2 py-4 text-white placeholder-white/20 border-none outline-none ring-0 focus:ring-0 focus:outline-none text-sm resize-none font-light"
                   />
-                  {/* Tapered Bottom Border - Default */}
-                  <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                  {/* Tapered Bottom Border - Focus */}
-                  <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 transform scale-x-0 group-focus-within:scale-x-100" />
+                  {/* Simple Bottom Border - Default (Solid Line) */}
+                  <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white/20" />
+                  {/* Simple Bottom Border - Focus (Solid Line) */}
+                  <div className="absolute bottom-0 left-0 w-full h-[1px] bg-white opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 transform scale-x-0 group-focus-within:scale-x-100 origin-left" />
                 </div>
               </div>
 

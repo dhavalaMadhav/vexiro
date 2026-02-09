@@ -9,7 +9,7 @@ const Footer = () => {
       {/* Short, Tapered Partition Line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-md h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent" />
 
-      <div className="container mx-auto px-8 md:px-16 pt-16 pb-8 md:pt-24 md:pb-8">
+      <div className="container mx-auto px-8 md:px-16 pt-16 pb-32 md:pt-24 md:pb-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-16">
 
           {/* Brand Column */}
