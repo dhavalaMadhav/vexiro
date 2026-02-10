@@ -12,11 +12,16 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Lenis from 'lenis'
 import MobileNav from './components/MobileNav';
+import LogoCompetition from './components/LogoCompetition';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 function App() {
 
   const { scrollY } = useScroll();
   const rotate = useTransform(scrollY, (value) => value / 3); // Continuous rotation: 1 degree per 3px scrolled
+
+  const location = useLocation();
+  const isLogoCompetition = location.pathname === '/logo-competition';
 
   useEffect(() => {
     const lenis = new Lenis()
@@ -37,17 +42,25 @@ function App() {
   return (
     <div className="App selection:bg-white/10 selection:text-white relative">
       <BackgroundSystem />
-      <SectionNav />
-      <MobileNav />
+      {!isLogoCompetition && <SectionNav />}
+      <MobileNav showLinks={!isLogoCompetition} />
       <div className="relative z-10">
-        <Hero />
-        <Services />
-        <div className="hidden lg:block">
-          <CurvedDivider />
-        </div>
-        <Work />
-        <Team />
-        <Contact />
+        <Routes>
+          <Route path="/" element={
+            <>
+              <Hero />
+              <Services />
+              <div className="hidden lg:block">
+                <CurvedDivider />
+              </div>
+              <Work />
+              <Team />
+              <Contact />
+            </>
+          } />
+          <Route path="/logo-competition" element={<LogoCompetition />} />
+        </Routes>
+
         <Footer />
       </div>
 
@@ -83,8 +96,8 @@ function App() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           </motion.svg>
         </button>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 }
 

@@ -9,7 +9,7 @@ const sections = [
     { id: 'contact', name: 'Contact' }
 ];
 
-const MobileNav = () => {
+const MobileNav = ({ showLinks = true }) => {
     const [activeSection, setActiveSection] = useState('home');
     const { scrollY } = useScroll();
     const rotate = useTransform(scrollY, (value) => value / 3);
@@ -64,30 +64,32 @@ const MobileNav = () => {
             >
 
                 {/* Left: Navigation Indicators (Horizontal Row of Vertical Lines) */}
-                <div className="flex items-center gap-6">
-                    {sections.map((section) => (
-                        <div
-                            key={section.id}
-                            className="group relative flex flex-col items-center justify-center p-2 cursor-pointer"
-                            onClick={() => scrollToSection(section.id)}
-                        >
-                            {/* Vertical Line */}
-                            <motion.div
-                                animate={{
-                                    height: activeSection === section.id ? 24 : 12,
-                                    width: 2,
-                                    backgroundColor: activeSection === section.id ? "rgba(255, 255, 255, 1)" : "rgba(255, 255, 255, 0.2)",
-                                }}
-                                className="rounded-full transition-all duration-300"
-                            />
-                            {/* Label (Optional? User didn't ask for text, just lines "inverted"). 
-                       Desktop has text on hover. Mobile hover is tricky. 
-                       I'll keep it clean with just lines as requested, maybe label appears on active?
-                       User said "vertical line arranged horizontally for navigation... like tabs".
-                   */}
-                        </div>
-                    ))}
-                </div>
+                {showLinks ? (
+                    <div className="flex items-center gap-6">
+                        {sections.map((section) => (
+                            <div
+                                key={section.id}
+                                className="group relative flex flex-col items-center justify-center p-2 cursor-pointer"
+                                onClick={() => scrollToSection(section.id)}
+                            >
+                                {/* Vertical Line */}
+                                <motion.div
+                                    animate={{
+                                        height: activeSection === section.id ? 24 : 12,
+                                        width: 2,
+                                        backgroundColor: activeSection === section.id ? "rgba(255, 255, 255, 1)" : "rgba(255, 255, 255, 0.2)",
+                                    }}
+                                    className="rounded-full transition-all duration-300"
+                                />
+                                {/* Label (Optional? User didn't ask for text, just lines "inverted"). 
+                            Desktop has text on hover. Mobile hover is tricky. 
+                            I'll keep it clean with just lines as requested, maybe label appears on active?
+                            User said "vertical line arranged horizontally for navigation... like tabs".
+                        */}
+                            </div>
+                        ))}
+                    </div>
+                ) : <div />}
 
                 {/* Right: Gear Icon (Scroll to Top) */}
                 <button
