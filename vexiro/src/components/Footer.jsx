@@ -20,9 +20,12 @@ const Footer = () => {
               viewport={{ once: true }}
               className="space-y-4"
             >
-              <h2 className="text-3xl font-black tracking-tighter text-white">
-                VEXAMO
-              </h2>
+              <div className="flex items-center gap-4">
+                <img src="/vexamo.svg" alt="Vexamo" className="w-12 h-12 object-contain invert brightness-0" />
+                <h2 className="text-3xl font-black tracking-tighter text-white">
+                  VEXAMO
+                </h2>
+              </div>
               <p className="text-white/60 text-sm leading-relaxed max-w-sm font-light">
                 Crafting digital experiences that transcend the ordinary. We build the future of the web, one pixel at a time.
               </p>

@@ -235,7 +235,7 @@ const Hero = () => {
 
         {/* LEFT COLUMN: INFORMATION & BRANDING */}
         <motion.div
-          className="flex flex-col justify-start lg:justify-center h-auto lg:h-screen overflow-visible relative w-full z-20 min-w-0 pb-[500px] lg:pb-0"
+          className="flex flex-col justify-start lg:justify-center h-auto lg:h-screen overflow-visible relative w-full z-20 min-w-0 pb-32 lg:pb-0"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -358,8 +358,8 @@ const Hero = () => {
 
       </div>
 
-      {/* MOBILE BENTO ROW (BOTTOM FIXED) */}
-      <div className="absolute bottom-10 left-0 w-full z-10 block lg:hidden pointer-events-none flex flex-col gap-3">
+      {/* MOBILE BENTO ROW (BOTTOM FIXED) - Moved up */}
+      <div className="absolute bottom-32 left-0 w-full z-10 block lg:hidden pointer-events-none flex flex-col gap-3">
         <MobileBentoRow images={col1} speed={5} />
       </div>
 

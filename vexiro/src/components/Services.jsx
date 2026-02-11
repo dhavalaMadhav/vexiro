@@ -302,14 +302,12 @@ const Services = () => {
         }
 
         .service-details-wrapper p {
-          color: rgba(255, 255, 255, 0.3);
+          color: rgba(255, 255, 255, 0.5);
           line-height: 1.625;
           margin-bottom: 2rem;
-          font-size: 10px;
-          font-weight: 300;
+          font-size: 1rem;
+          font-weight: 400;
           max-width: 480px;
-          text-transform: uppercase;
-          letter-spacing: 0.3em;
         }
 
         @media (min-width: 768px) {
@@ -436,9 +434,9 @@ const Services = () => {
           z-index: 0;
         }
 
-        .glow-web-dev { background: radial-gradient(circle, rgba(255, 122, 61, 0.7) 0%, rgba(255, 122, 61, 0) 65%); }
-        .glow-logo-design { background: radial-gradient(circle, rgba(138, 61, 255, 0.7) 0%, rgba(138, 61, 255, 0) 65%); }
-        .glow-video-edit { background: radial-gradient(circle, rgba(64, 158, 255, 0.7) 0%, rgba(64, 158, 255, 0) 65%); }
+        .glow-web-dev { background: radial-gradient(circle, rgba(255, 122, 61, 0.9) 0%, rgba(255, 122, 61, 0) 65%); }
+        .glow-logo-design { background: radial-gradient(circle, rgba(138, 61, 255, 0.9) 0%, rgba(138, 61, 255, 0) 65%); }
+        .glow-video-edit { background: radial-gradient(circle, rgba(64, 158, 255, 0.9) 0%, rgba(64, 158, 255, 0) 65%); }
         
         /* Floating Circles */
         .circles-container-services { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
@@ -469,10 +467,26 @@ const Services = () => {
         .window-title-services { color: #7a7f89; font-size: 14px; font-weight: 500; }
         .code-content-services { font-family: 'Monaco', 'Menlo', monospace; font-size: 16px; color: #a1a1b3; line-height: 1.6; }
         .code-line-services { margin-bottom: 8px; }
-        .code-comment-services { color: #5a5a7a; }
-        .code-tag-services { color: #ff7a3d; }
-        .code-attr-services { color: #8a3dff; }
-        .code-value-services { color: #ffffff; }
+        .code-comment-services { color: #b0b0c0; text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); }
+        .code-tag-services { color: #ff7a3d; text-shadow: 0 0 10px rgba(255, 122, 61, 0.4); font-weight: 600; }
+        .code-attr-services { color: #b388ff; text-shadow: 0 0 10px rgba(179, 136, 255, 0.4); font-style: italic; }
+        .code-value-services { color: #29ffc6; text-shadow: 0 0 10px rgba(41, 255, 198, 0.4); font-weight: 600; }
+        
+        /* Web Dev Specific Overrides for "Bold Modern" Look */
+        .web-dev .visual-container-services {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01));
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .web-dev .code-window-header-services {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.2);
+            margin: -32px -32px 24px -32px;
+            padding: 16px 32px;
+        }
 
         .logo-design-visual-services { display: flex; align-items: center; justify-content: flex-start; width: 100%; height: 100%; gap: 20px; }
 
@@ -507,12 +521,17 @@ const Services = () => {
           .service-block.layout-normal,
           .service-block.layout-reverse {
             flex-direction: column; /* Changed from column-reverse to column */
-            gap: 24px;
+            gap: 16px; /* Reduced gap between internal elements */
             text-align: left;
-            padding: 20px 0;
-            min-height: 100vh;
+            padding: 12px 0; /* Reduced from 24px */
+            min-height: auto;
             justify-content: center;
             align-items: flex-start;
+          }
+          
+          /* Reduce Stack Gap */
+          .services-stack {
+            gap: 12px; /* Reduced from 30px */
           }
            
            /* Ordering Logic for Mobile */
@@ -521,7 +540,13 @@ const Services = () => {
            /* Mobile Button is duplicated in JSX, handled there */
 
            .service-details-wrapper h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-           .service-details-wrapper p { margin: 0 0 1rem 0; font-size: 0.8rem; line-height: 1.4; }
+           .service-details-wrapper p { 
+             margin: 0 0 1rem 0; 
+             font-size: 0.8rem; 
+             line-height: 1.4; 
+             font-weight: 300; /* Match list items */
+             color: rgba(255, 255, 255, 0.4); /* Match list items */
+           }
            
            /* Show 3 points instead of 2 */
            .service-features-services li:nth-child(n+4) {
@@ -532,7 +557,7 @@ const Services = () => {
            
            /* Gap Reduction */
            .section-header-container {
-             margin-bottom: 40px;
+             margin-bottom: 20px; /* Reduced from 40px */
            }
            
            .service-feature-item-services { margin-bottom: 4px; padding-left: 16px; }
@@ -599,14 +624,15 @@ const Services = () => {
              padding: 16px;
              border-radius: 24px;
              /* Ensure standard glass settings from .visual-container-services apply */
-             background: rgba(255, 255, 255, 0.03);
+             background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01));
              overflow: hidden;
            }
-           .web-dev .code-window-header-services {
-             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-             margin-bottom: 12px;
-             padding-bottom: 8px;
-           }
+            .web-dev .code-window-header-services {
+              border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+              margin: -16px -16px 12px -16px;
+              padding: 12px 16px;
+              display: flex; /* Ensure flex for alignment */
+            }
            .web-dev .visual-container-services {
              max-height: 100%;
              overflow: hidden;
@@ -615,10 +641,6 @@ const Services = () => {
              font-size: 11px; /* Smaller font */
              text-align: left !important; /* Force left align */
              line-height: 1.4;
-           }
-           .web-dev .code-window-header-services {
-             margin-bottom: 12px;
-             padding-bottom: 8px;
            }
         }
       `}</style>
@@ -682,7 +704,7 @@ const Services = () => {
                   <div className="service-details-wrapper">
                     <span
                       className="service-index"
-                      style={{ color: service.dotColor }}
+                      style={{ color: '#ffffff' }}
                     >
                       {String(idx + 1).padStart(2, "0")}
                     </span>

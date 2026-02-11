@@ -70,7 +70,7 @@ const ProjectCard = ({ project }) => {
                 </div>
                 {/* Hover Color Glow */}
                 <div
-                    className="absolute inset-x-0 bottom-0 h-1/2 opacity-0 group-hover/card:opacity-10 transition-opacity duration-700 pointer-events-none"
+                    className="absolute inset-x-0 bottom-0 h-1/2 opacity-0 group-hover/card:opacity-40 transition-opacity duration-700 pointer-events-none"
                     style={{ background: `radial-gradient(circle at bottom, ${project.color}, transparent 70%)` }}
                 />
 
@@ -83,7 +83,7 @@ const ProjectCard = ({ project }) => {
                     </div>
 
                     {/* Project Title */}
-                    <h4 className="text-white text-3xl font-bold mb-4 tracking-tight">
+                    <h4 className="text-[1.5rem] md:text-[2.5rem] font-bold mb-4 tracking-tighter uppercase text-white">
                         {project.name}
                     </h4>
 
@@ -201,22 +201,7 @@ const WorkSection = () => {
                 </p>
             </motion.div>
 
-            {/* Websites Sub-heading */}
-            <motion.div
-                className="relative z-20 px-8 md:px-16 w-full max-w-7xl mb-12"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-                <div className="flex flex-col items-start">
-                    <h4 className="text-[clamp(1.5rem,8vw,3.5rem)] md:text-5xl font-bold tracking-tighter uppercase">Websites</h4>
-                    <p className="text-white/30 text-[10px] md:text-xs tracking-[0.3em] font-light uppercase mt-2">
-                        Bespoke digital experiences / Performance engineering
-                    </p>
-                    <div className="h-[1px] w-24 bg-white/20 mt-4" />
-                </div>
-            </motion.div>
+
 
             {/* Static Grid of Cards */}
             <div className="relative z-20 flex flex-wrap justify-center lg:justify-start gap-10 px-8 md:px-16 max-w-7xl w-full mb-16">
@@ -234,22 +219,7 @@ const WorkSection = () => {
                 ))}
             </div>
 
-            {/* Logos Sub-heading */}
-            <motion.div
-                className="relative z-20 px-8 md:px-16 w-full max-w-7xl mb-12"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-                <div className="flex flex-col items-start">
-                    <h4 className="text-[clamp(1.5rem,8vw,3.5rem)] md:text-5xl font-bold tracking-tighter uppercase">Logos</h4>
-                    <p className="text-white/30 text-[10px] md:text-xs tracking-[0.3em] font-light uppercase mt-2">
-                        Visual Identities / Brand Strategy
-                    </p>
-                    <div className="h-[1px] w-24 bg-white/20 mt-4" />
-                </div>
-            </motion.div>
+
 
             {/* Logo Pill Layout - Reduced Bottom Spacing */}
             <div

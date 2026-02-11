@@ -56,18 +56,7 @@ const Contact = () => {
           <div className="relative flex flex-col items-center justify-center">
 
             {/* Text Container - Moved Above Images */}
-            <div className="flex flex-col items-start w-full pl-4 md:pl-0 max-w-md mb-8">
-              {/* "Team Building" Title - Scrollytelling Style */}
-              <p className="text-white/30 text-[10px] md:text-xs tracking-[0.3em] font-light uppercase mt-2">
-                Team Building
-                <div className="h-[1px] w-12 bg-white/20 mt-2" />
-              </p>
 
-              {/* Team Description */}
-              <p className="text-white/60 text-sm font-light leading-relaxed text-left mt-4">
-                Our team of designers and engineers work in perfect harmony to build digital products that stand the test of time.
-              </p>
-            </div>
 
             {/* Infinity Loop - Dual Overlapping Organic Shapes */}
             <div className="relative w-full max-w-[700px] aspect-[700/460] drop-shadow-2xl group cursor-pointer">
