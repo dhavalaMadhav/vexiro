@@ -309,8 +309,7 @@ const Hero = () => {
                 variants={itemVariants}
                 className="text-base md:text-lg text-white/60 font-medium mb-8 leading-relaxed max-w-md text-left"
               >
-                Crafting premium digital experiences that captivate audiences and drive meaningful results for forward-thinking brands.
-              </motion.p>
+ From websites and web applications to branding and UI/UX — we help businesses build products that look premium, work flawlessly, and scale with confidence.              </motion.p>
 
               <motion.div
                 variants={itemVariants}
