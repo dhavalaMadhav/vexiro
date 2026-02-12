@@ -10,6 +10,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import IntroAnimation from './components/IntroAnimation';
 import CurvedDivider from './components/CurvedDivider';
+import MobileNav from './components/MobileNav';
 
 function App() {
   useLocomotiveScroll();
@@ -52,9 +53,10 @@ function App() {
       </AnimatePresence>
 
       <BackgroundSystem />
-      <SectionNav />
-      
+         <SectionNav />
+      <MobileNav />
       <div className="relative z-10">
+
         <Hero />
         <Services />
         <CurvedDivider />
@@ -65,10 +67,10 @@ function App() {
 
       {/* Scroll To Top Gear - Fixed Bottom Right */}
       <div
-        className={`fixed bottom-10 right-10 z-50 transition-all duration-500 transform ${showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-10 right-10 z-50 transition-all duration-500 transform ${showScrollTop ? 'translate-y-0 opacity-100 pointer-events-auto' : 'translate-y-20 opacity-0 pointer-events-none'} hidden lg:block`}
       >
         <button
-          onClick={scrollToTop}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} // Inline function since state logic removed for simplicity in snippet match
           className="relative w-16 h-16 flex items-center justify-center bg-transparent border-none outline-none group cursor-pointer"
           aria-label="Scroll to top"
         >
