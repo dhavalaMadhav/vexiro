@@ -39,10 +39,6 @@ function App() {
     return () => window.removeEventListener('scroll', checkScroll);
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
     <div className="App selection:bg-white/10 selection:text-white">
       {/* Intro Animation Layer */}
