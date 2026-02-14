@@ -63,22 +63,21 @@ const LogoCompetition = () => {
         }
 
         timerComponents.push(
-            <div key={interval} className="flex flex-col items-center mx-1 md:mx-2">
+            <div key={interval} className="flex flex-col items-center mx-[2px] md:mx-2">
                 <div className="flex items-start">
                     {/* Digit Container - Transparent, no border */}
                     <div className="flex flex-col items-center">
-                        <span className="text-4xl md:text-6xl font-black text-white leading-none" style={{ textShadow: "0 4px 8px rgba(0,0,0,1)" }}>
+                        <span className="text-2xl md:text-6xl font-black text-white leading-none" style={{ textShadow: "0 4px 8px rgba(0,0,0,1)" }}>
                             {String(timeLeft[interval]).padStart(2, '0')}
                         </span>
                         {/* Updated label color to Green */}
-                        <span className="text-[10px] md:text-xs tracking-[0.2em] font-bold uppercase text-white mt-2" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
+                        <span className="text-[8px] md:text-xs tracking-[0.2em] font-bold uppercase text-white mt-1 md:mt-2" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
                             {interval}
                         </span>
                     </div>
 
-                    {/* Separator - Hidden on mobile, visible on md+ */}
                     {index < intervals.length - 1 && (
-                        <span className="hidden md:block text-2xl md:text-4xl font-light text-white/50 mx-2 md:mx-4 mt-2" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>:</span>
+                        <span className="text-xl md:text-4xl font-light text-white/50 mx-0.5 md:mx-4 mt-0.5 md:mt-3 leading-none" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>:</span>
                     )}
                 </div>
             </div>
@@ -327,7 +326,7 @@ const LogoCompetition = () => {
 
                             {/* Timer Content */}
                             <div className="relative z-10 w-full flex flex-col items-center justify-center py-8 px-12">
-                                <div className="grid grid-cols-2 md:flex justify-center items-center gap-8 md:gap-8 w-full max-w-[300px] md:max-w-none">
+                                <div className="flex justify-center items-center w-full">
                                     {timerComponents.length ? timerComponents : <span className="text-xl text-white/50" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>Competition Closed</span>}
                                 </div>
                             </div>
