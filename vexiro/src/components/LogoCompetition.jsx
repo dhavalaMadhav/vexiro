@@ -67,18 +67,18 @@ const LogoCompetition = () => {
                 <div className="flex items-start">
                     {/* Digit Container - Transparent, no border */}
                     <div className="flex flex-col items-center">
-                        <span className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 leading-none" style={{ filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.8))" }}>
+                        <span className="text-4xl md:text-6xl font-black text-white leading-none" style={{ textShadow: "0 4px 8px rgba(0,0,0,1)" }}>
                             {String(timeLeft[interval]).padStart(2, '0')}
                         </span>
                         {/* Updated label color to Green */}
-                        <span className="text-[10px] md:text-xs tracking-[0.2em] font-bold uppercase text-black mt-2" style={{ textShadow: "0 1px 2px rgba(255,255,255,0.4)" }}>
+                        <span className="text-[10px] md:text-xs tracking-[0.2em] font-bold uppercase text-white mt-2" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
                             {interval}
                         </span>
                     </div>
 
-                    {/* Separator - Only show if not the last element */}
+                    {/* Separator - Hidden on mobile, visible on md+ */}
                     {index < intervals.length - 1 && (
-                        <span className="text-2xl md:text-4xl font-light text-white/50 mx-2 md:mx-4 mt-2" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>:</span>
+                        <span className="hidden md:block text-2xl md:text-4xl font-light text-white/50 mx-2 md:mx-4 mt-2" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>:</span>
                     )}
                 </div>
             </div>
@@ -148,7 +148,7 @@ const LogoCompetition = () => {
                                 The Theme
                             </h3>
                             <p className="text-white/70 leading-relaxed font-light mb-6 text-lg">
-                                Design a logo that embodies <span className="text-white font-medium">Luxury</span>, <span className="text-[#e2b714]">Excellence</span>, and <span className="text-[#ff5f56]">Premium Aesthetics</span>.
+                                Design a logo for <span className="text-white font-bold">MPDL</span>, a premier food export company specializing in grains and quality products. The identity should embody <span className="text-white font-medium">Luxury</span>, <span className="text-[#e2b714]">Excellence</span>, and <span className="text-[#ff5f56]">Premium Aesthetics</span>.
                             </p>
                             <div className="space-y-4">
                                 <div className="flex items-start">
@@ -306,11 +306,11 @@ const LogoCompetition = () => {
                             initial={{ opacity: 0, y: 50 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.6 }}
-                            className="relative w-full max-w-3xl rounded-full overflow-hidden border border-white/20 shadow-[0_10px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl group"
+                            className="relative w-full max-w-3xl rounded-full overflow-hidden border border-white/40 shadow-[0_0_30px_rgba(255,255,255,0.15),_0_10px_40px_rgba(0,0,0,0.8)] backdrop-blur-xl group"
                         >
                             {/* Glass Shine Effect */}
-                            <div className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-50"></div>
-                            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent z-20"></div>
+                            <div className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-70"></div>
+                            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-white/80 to-transparent z-20 shadow-[0_0_15px_rgba(255,255,255,0.5)]"></div>
 
                             {/* Video Background - Grayscale */}
                             <div className="absolute inset-0 z-0">
@@ -327,7 +327,7 @@ const LogoCompetition = () => {
 
                             {/* Timer Content */}
                             <div className="relative z-10 w-full flex flex-col items-center justify-center py-8 px-12">
-                                <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
+                                <div className="grid grid-cols-2 md:flex justify-center items-center gap-8 md:gap-8 w-full max-w-[300px] md:max-w-none">
                                     {timerComponents.length ? timerComponents : <span className="text-xl text-white/50" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>Competition Closed</span>}
                                 </div>
                             </div>
