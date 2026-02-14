@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 // --- Countdown Utility ---
 const calculateTimeLeft = () => {
-    const difference = +new Date("2026-03-31") - +new Date(); // Mock deadline for demo
+    const difference = +new Date("2026-03-03") - +new Date(); // Updated deadline to March 3rd, 2026
     let timeLeft = {};
 
     if (difference > 0) {
@@ -21,14 +21,38 @@ const calculateTimeLeft = () => {
 // --- Main Component ---
 const LogoCompetition = () => {
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-    const [submissionsLeft] = useState(3); // Mock state
+    const videoRef = useRef(null);
 
+    // Timer Update Effect
     useEffect(() => {
         const timer = setTimeout(() => {
             setTimeLeft(calculateTimeLeft());
         }, 1000);
         return () => clearTimeout(timer);
     });
+
+    // Camera Feed Effect
+    useEffect(() => {
+        let stream = null;
+        const startCamera = async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                if (videoRef.current) {
+                    videoRef.current.srcObject = stream;
+                }
+            } catch (err) {
+                console.error("Error accessing camera:", err);
+            }
+        };
+
+        startCamera();
+
+        return () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        };
+    }, []);
 
     const timerComponents = [];
     const intervals = Object.keys(timeLeft);
@@ -43,17 +67,18 @@ const LogoCompetition = () => {
                 <div className="flex items-start">
                     {/* Digit Container - Transparent, no border */}
                     <div className="flex flex-col items-center">
-                        <span className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-lg leading-none">
+                        <span className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 leading-none" style={{ filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.8))" }}>
                             {String(timeLeft[interval]).padStart(2, '0')}
                         </span>
-                        <span className="text-[10px] md:text-xs tracking-[0.2em] font-bold uppercase text-[#8a3dff] mt-2 drop-shadow-md">
+                        {/* Updated label color to Green */}
+                        <span className="text-[10px] md:text-xs tracking-[0.2em] font-bold uppercase text-black mt-2" style={{ textShadow: "0 1px 2px rgba(255,255,255,0.4)" }}>
                             {interval}
                         </span>
                     </div>
 
                     {/* Separator - Only show if not the last element */}
                     {index < intervals.length - 1 && (
-                        <span className="text-2xl md:text-4xl font-light text-white/20 mx-2 md:mx-4 mt-2">:</span>
+                        <span className="text-2xl md:text-4xl font-light text-white/50 mx-2 md:mx-4 mt-2" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>:</span>
                     )}
                 </div>
             </div>
@@ -100,13 +125,10 @@ const LogoCompetition = () => {
                     <div className="inline-block px-4 py-1.5 rounded-full border border-[#8a3dff]/30 bg-[#8a3dff]/10 backdrop-blur-md mb-6">
                         <span className="text-[10px] font-bold tracking-[0.2em] text-[#8a3dff] uppercase">Premium Design Challenge</span>
                     </div>
-                    {/* Silver Shaded Title with Violet Highlight & Mobile Size Adjustment */}
+                    {/* Simplified Title */}
                     <h1 className="text-[clamp(2rem,5vw,5rem)] font-black tracking-tighter uppercase mb-2 leading-none drop-shadow-2xl">
-                        <span className="text-transparent bg-clip-text bg-gradient-to-b from-gray-200 via-gray-400 to-gray-300">MPDL</span> <span className="text-[#8a3dff]">Logo Competition</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-b from-gray-200 via-gray-400 to-gray-300">Logo</span> <span className="text-[#8a3dff]">Competition</span>
                     </h1>
-                    <p className="text-sm md:text-base text-white/50 tracking-widest uppercase font-light max-w-2xl">
-                        Forging the Face of Global Indian Exports
-                    </p>
                 </motion.div>
 
                 {/* Main Split Content */}
@@ -126,16 +148,16 @@ const LogoCompetition = () => {
                                 The Theme
                             </h3>
                             <p className="text-white/70 leading-relaxed font-light mb-6 text-lg">
-                                Design a logo for <span className="text-white font-medium">MPDL</span> that embodies the export of premium <span className="text-[#e2b714]">Grains</span> and <span className="text-[#ff5f56]">Fruits</span>.
+                                Design a logo that embodies <span className="text-white font-medium">Luxury</span>, <span className="text-[#e2b714]">Excellence</span>, and <span className="text-[#ff5f56]">Premium Aesthetics</span>.
                             </p>
                             <div className="space-y-4">
                                 <div className="flex items-start">
                                     <span className="text-[#8a3dff] mr-4 text-xs mt-1">01</span>
-                                    <p className="text-white/50 text-sm uppercase tracking-wide">Reflect Freshness & Global Scale</p>
+                                    <p className="text-white/50 text-sm uppercase tracking-wide">High-End & Luxurious Feel</p>
                                 </div>
                                 <div className="flex items-start">
                                     <span className="text-[#8a3dff] mr-4 text-xs mt-1">02</span>
-                                    <p className="text-white/50 text-sm uppercase tracking-wide">Subtle Nature Elements (Grain/Leaf)</p>
+                                    <p className="text-white/50 text-sm uppercase tracking-wide">Modern & Timeless Design</p>
                                 </div>
                                 <div className="flex items-start">
                                     <span className="text-[#8a3dff] mr-4 text-xs mt-1">03</span>
@@ -168,12 +190,54 @@ const LogoCompetition = () => {
                                 <span className="w-8 h-[1px] bg-[#8a3dff]"></span>
                                 Bounty
                             </h3>
-                            <div className="flex items-baseline gap-1">
-                                <span className="text-5xl font-black text-white">₹100</span>
-                                {/* Green INR */}
-                                <span className="text-[#27ca3f] text-sm uppercase tracking-wider font-bold">INR</span>
+                            <div className="space-y-4">
+                                {/* 1st Place */}
+                                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#ffd700] to-[#e2b714] flex items-center justify-center p-1.5 shadow-[0_0_15px_rgba(226,183,20,0.4)]">
+                                            <svg className="w-full h-full text-black" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                                            </svg>
+                                        </div>
+                                        <span className="text-white/70 text-sm font-light uppercase tracking-widest">1st Place</span>
+                                    </div>
+                                    <div className="flex items-baseline gap-1">
+                                        <span className="text-3xl font-black text-white">₹1000</span>
+                                        <span className="text-[#27ca3f] text-[10px] uppercase tracking-wider font-bold">INR</span>
+                                    </div>
+                                </div>
+                                {/* 2nd Place */}
+                                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#e0e0e0] to-[#c0c0c0] flex items-center justify-center p-1.5 shadow-[0_0_15px_rgba(192,192,192,0.3)]">
+                                            <svg className="w-full h-full text-black" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                                            </svg>
+                                        </div>
+                                        <span className="text-white/70 text-sm font-light uppercase tracking-widest">2nd Place</span>
+                                    </div>
+                                    <div className="flex items-baseline gap-1">
+                                        <span className="text-2xl font-bold text-white/90">₹500</span>
+                                        <span className="text-[#27ca3f] text-[10px] uppercase tracking-wider font-bold">INR</span>
+                                    </div>
+                                </div>
+                                {/* 3rd Place */}
+                                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#cd7f32] to-[#b06a25] flex items-center justify-center p-1.5 shadow-[0_0_15px_rgba(205,127,50,0.3)]">
+                                            <svg className="w-full h-full text-black" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                                            </svg>
+                                        </div>
+                                        <span className="text-white/70 text-sm font-light uppercase tracking-widest">3rd Place</span>
+                                    </div>
+                                    <div className="flex items-baseline gap-1">
+                                        <span className="text-xl font-bold text-white/80">₹100</span>
+                                        <span className="text-[#27ca3f] text-[10px] uppercase tracking-wider font-bold">INR</span>
+                                    </div>
+                                </div>
                             </div>
-                            <p className="text-white/30 text-[10px] mt-2 uppercase tracking-widest">Instant Transfer to Winner</p>
+                            <p className="text-white/30 text-[10px] mt-4 uppercase tracking-widest">Instant Transfer to Winners</p>
                         </div>
 
                     </motion.div>
@@ -195,34 +259,39 @@ const LogoCompetition = () => {
                     >
                         <h3 className="text-3xl font-black uppercase mb-2 text-white">Enter the Arena</h3>
                         <p className="text-white/40 text-sm font-light mb-10 max-w-md">
-                            Submissions are currently accepted via email. Ensure your files meet the specifications before sending.
+                            Submissions are now open. Upload your designs directly via the competition form.
                         </p>
 
                         <div className="space-y-8">
-                            <div className="space-y-2">
-                                <div className="flex justify-between text-[10px] uppercase tracking-widest font-bold">
-                                    <span className="text-white/30">Remaining Entries</span>
-                                    <span className="text-[#8a3dff]">{submissionsLeft} / 3</span>
-                                </div>
-                                <div className="w-full bg-white/5 h-1 rounded-full overflow-hidden">
-                                    <div className="bg-[#8a3dff] h-full w-[0%]" /> {/* Mock Progress */}
-                                </div>
-                            </div>
-
+                            {/* Google Form Button */}
                             <a
-                                href="mailto:madhavdhavala0@gmail.com?subject=MPDL%20Logo%20Entry"
-                                className="group flex items-center gap-6 text-left w-full sm:w-auto"
+                                href="https://forms.gle/UGVeEezb3sajVc9P6"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full max-w-md py-4 rounded-full font-bold uppercase tracking-widest text-sm transition-all duration-300 flex items-center justify-center gap-3 bg-[#8a3dff] text-white hover:bg-[#7a32e5] border border-white/10 relative overflow-hidden hover:shadow-[-4px_4px_10px_rgba(255,255,255,0.2)] cursor-pointer"
                             >
-                                <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-[#8a3dff] group-hover:border-[#8a3dff] transition-all duration-300">
-                                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <span className="block text-white font-bold uppercase tracking-widest text-sm group-hover:translate-x-1 transition-transform duration-300">Submit Design</span>
-                                    <span className="block text-white/30 text-[10px] uppercase tracking-widest mt-1">Via Email Client</span>
-                                </div>
+                                {/* Top Border Shine */}
+                                <div
+                                    className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px]"
+                                    style={{
+                                        background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6) 50%, transparent)',
+                                        boxShadow: '0 0 10px rgba(255, 255, 255, 0.4)'
+                                    }}
+                                />
+                                <span>Submit via Google Form</span>
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
                             </a>
+
+                            <div className="w-full max-w-md text-center">
+                                <p className="text-white/50 text-[10px] uppercase tracking-widest">
+                                    Results Announcement
+                                </p>
+                                <p className="text-white font-bold text-sm mt-1 uppercase tracking-wide">
+                                    March 3rd, 2026
+                                </p>
+                            </div>
                         </div>
                     </motion.div>
 
@@ -231,17 +300,44 @@ const LogoCompetition = () => {
                 {/* BOTTOM SECTION: Timer & Competitions List */}
                 <div className="mt-auto flex flex-col items-center w-full">
 
-                    {/* Timer */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.6 }}
-                        className="pt-10 pb-16 flex flex-col items-center justify-center w-full"
-                    >
-                        <div className="flex flex-wrap justify-center items-center">
-                            {timerComponents.length ? timerComponents : <span className="text-xl text-white/50">Competition Closed</span>}
-                        </div>
-                    </motion.div>
+                    {/* Timer with Camera Background - PILL SHAPED */}
+                    <div className="flex flex-col items-center w-full mb-16">
+                        <motion.div
+                            initial={{ opacity: 0, y: 50 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.6 }}
+                            className="relative w-full max-w-3xl rounded-full overflow-hidden border border-white/20 shadow-[0_10px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl group"
+                        >
+                            {/* Glass Shine Effect */}
+                            <div className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-50"></div>
+                            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent z-20"></div>
+
+                            {/* Video Background - Grayscale */}
+                            <div className="absolute inset-0 z-0">
+                                <video
+                                    ref={videoRef}
+                                    autoPlay
+                                    playsInline
+                                    muted
+                                    className="w-full h-full object-cover grayscale opacity-70"
+                                />
+                                {/* Overlay to ensure text readability */}
+                                <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
+                            </div>
+
+                            {/* Timer Content */}
+                            <div className="relative z-10 w-full flex flex-col items-center justify-center py-8 px-12">
+                                <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
+                                    {timerComponents.length ? timerComponents : <span className="text-xl text-white/50" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>Competition Closed</span>}
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Time Remaining Text - OUTSIDE */}
+                        <p className="mt-6 text-white text-[10px] uppercase tracking-[0.3em] font-bold drop-shadow-md" style={{ textShadow: "0 2px 4px rgba(0,0,0,1)" }}>
+                            Time Remaining
+                        </p>
+                    </div>
 
                     {/* Ongoing & Upcoming Competitions */}
                     <motion.div
