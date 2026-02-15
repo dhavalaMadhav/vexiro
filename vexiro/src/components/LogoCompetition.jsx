@@ -116,9 +116,9 @@ const LogoCompetition = () => {
 
                 {/* Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 1, y: 0 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0 }}
                     className="text-left mb-16 pl-4 md:pl-0"
                 >
                     <div className="inline-block px-4 py-1.5 rounded-full border border-[#8a3dff]/30 bg-[#8a3dff]/10 backdrop-blur-md mb-6">
@@ -135,9 +135,9 @@ const LogoCompetition = () => {
 
                     {/* LEFT COLUMN: Specs & Theme */}
                     <motion.div
-                        initial={{ opacity: 0, x: -30 }}
+                        initial={{ opacity: 1, x: 0 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
+                        transition={{ duration: 0 }}
                         className="space-y-12"
                     >
                         {/* Theme Section */}
@@ -243,17 +243,17 @@ const LogoCompetition = () => {
 
                     {/* VERTICAL DIVIDER */}
                     <motion.div
-                        initial={{ height: 0 }}
+                        initial={{ height: "100%" }}
                         animate={{ height: "100%" }}
-                        transition={{ duration: 1, delay: 0.4 }}
+                        transition={{ duration: 0 }}
                         className="hidden lg:block w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent min-h-[400px]"
                     />
 
                     {/* RIGHT COLUMN: Submission */}
                     <motion.div
-                        initial={{ opacity: 0, x: 30 }}
+                        initial={{ opacity: 1, x: 0 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
+                        transition={{ duration: 0 }}
                         className="flex flex-col h-full justify-center"
                     >
                         <h3 className="text-3xl font-black uppercase mb-2 text-white">Enter the Arena</h3>
@@ -302,9 +302,9 @@ const LogoCompetition = () => {
                     {/* Timer with Camera Background - PILL SHAPED */}
                     <div className="flex flex-col items-center w-full mb-16">
                         <motion.div
-                            initial={{ opacity: 0, y: 50 }}
+                            initial={{ opacity: 1, y: 0 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.6 }}
+                            transition={{ duration: 0 }}
                             className="relative w-full max-w-3xl rounded-full overflow-hidden border border-white/40 shadow-[0_0_30px_rgba(255,255,255,0.15),_0_10px_40px_rgba(0,0,0,0.8)] backdrop-blur-xl group"
                         >
                             {/* Glass Shine Effect */}
@@ -340,9 +340,9 @@ const LogoCompetition = () => {
 
                     {/* Ongoing & Upcoming Competitions */}
                     <motion.div
-                        initial={{ opacity: 0 }}
+                        initial={{ opacity: 1 }}
                         animate={{ opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 0.8 }}
+                        transition={{ duration: 0 }}
                         className="w-full border-t border-white/5 pt-12 pb-8 grid grid-cols-1 md:grid-cols-2 gap-12"
                     >
                         {/* Ongoing */}

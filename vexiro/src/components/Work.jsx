@@ -216,10 +216,9 @@ const WorkSection = () => {
             {/* Main Header Content - Centered */}
             <motion.div
                 className="relative z-20 text-center px-4 mb-12 w-full max-w-4xl"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                initial={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0 }}
             >
                 <h3 className="text-[clamp(1.5rem,8vw,3.5rem)] md:text-6xl font-black tracking-tighter uppercase mb-4 relative inline-block bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">
                     Delivered Projects
@@ -244,10 +243,9 @@ const WorkSection = () => {
                 {projects.map((project, idx) => (
                     <motion.div
                         key={idx}
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: idx * 0.1, ease: "easeOut" }}
+                        initial={{ opacity: 1, y: 0 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0 }}
                         className="w-full md:w-[340px] flex-shrink-0"
                     >
                         <ProjectCard project={project} />

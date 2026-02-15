@@ -13,6 +13,7 @@ import Footer from './components/Footer';
 import Lenis from 'lenis'
 import MobileNav from './components/MobileNav';
 import LogoCompetition from './components/LogoCompetition';
+import WebsiteFeaturesSticky from './components/WebsiteFeaturesSticky';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
       <BackgroundSystem />
       {!isLogoCompetition && <SectionNav />}
       <MobileNav showLinks={!isLogoCompetition} isLogoCompetition={isLogoCompetition} />
+      {!isLogoCompetition && <WebsiteFeaturesSticky />}
       <div className="relative z-10">
         <Routes>
           <Route path="/" element={

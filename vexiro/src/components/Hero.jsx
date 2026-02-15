@@ -156,40 +156,37 @@ const Hero = () => {
   }, []);
 
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.3 }
+      transition: { duration: 0 }
     }
   };
 
   const lineVariants = {
-    hidden: { y: "100%", opacity: 0 },
+    hidden: { y: 0, opacity: 1 },
     visible: {
       y: 0,
       opacity: 1,
-      transition: {
-        duration: 1,
-        ease: [0.16, 1, 0.3, 1]
-      }
+      transition: { duration: 0 }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 1, y: 0 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 0 }
     }
   };
 
   const bentoVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
+    hidden: { opacity: 1, scale: 1 },
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }
+      transition: { duration: 0 }
     }
   };
 
@@ -237,7 +234,7 @@ const Hero = () => {
         <motion.div
           className="flex flex-col justify-start lg:justify-center h-auto lg:h-screen overflow-visible relative w-full z-20 min-w-0 pb-32 lg:pb-0"
           variants={containerVariants}
-          initial="hidden"
+          initial="visible"
           animate="visible"
         >
           <div className="pointer-events-auto w-full max-w-none lg:max-w-[48rem]">
@@ -269,7 +266,7 @@ const Hero = () => {
                     <AnimatePresence mode="wait">
                       <motion.span
                         key={words[index]}
-                        initial={{ y: "40%", opacity: 0, filter: "blur(4px)" }}
+                        initial={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
                         animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
                         exit={{ y: "-40%", opacity: 0, filter: "blur(4px)" }}
                         transition={{
@@ -286,9 +283,9 @@ const Hero = () => {
                               stroke="rgba(255, 255, 255, 0.3)"
                               strokeWidth="3"
                               strokeLinecap="round"
-                              initial={{ pathLength: 0, opacity: 0 }}
+                              initial={{ pathLength: 1, opacity: 1 }}
                               animate={{ pathLength: 1, opacity: 1 }}
-                              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                              transition={{ duration: 0 }}
                             />
                           </svg>
                         </div>
@@ -356,7 +353,7 @@ const Hero = () => {
           <motion.div
             className="group grid grid-cols-2 gap-4 h-[110vh] -rotate-12 scale-75 opacity-60 w-[100%] origin-right transition-opacity duration-500"
             variants={bentoVariants}
-            initial="hidden"
+            initial="visible"
             animate="visible"
           >
             <BentoColumn images={col1} speed={25} />

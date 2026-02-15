@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 
 const Contact = () => {
@@ -9,16 +10,43 @@ const Contact = () => {
     message: ''
   });
 
+  const [isSending, setIsSending] = useState(false);
+  const [status, setStatus] = useState(null); // 'success' or 'error'
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, email, message } = formData;
-    const subject = encodeURIComponent(`New Project Inquiry from ${name}`);
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-    window.location.href = `mailto:contact@vexamo.dev?subject=${subject}&body=${body}`;
+    setIsSending(true);
+    setStatus(null);
+
+    // Using environment variables for EmailJS configuration
+    const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+
+    // Create a template parameters object
+    const templateParams = {
+      from_name: formData.name,
+      reply_to: formData.email,
+      message: formData.message,
+    };
+
+    emailjs.send(serviceId, templateId, templateParams, publicKey)
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        setIsSending(false);
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        // Optional: Reset status after a few seconds
+        setTimeout(() => setStatus(null), 5000);
+      }, (error) => {
+        console.log('FAILED...', error);
+        setIsSending(false);
+        setStatus('error');
+      });
   };
 
   return (
@@ -32,10 +60,9 @@ const Contact = () => {
         {/* Main Header Content - Added as requested */}
         <motion.div
           className="text-center mb-8 relative z-10"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          initial={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0 }}
         >
           <h2 className="text-[clamp(1.5rem,8vw,3.5rem)] md:text-6xl font-black tracking-tighter uppercase mb-4 relative inline-block bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">
             GET IN TOUCH
@@ -150,13 +177,23 @@ const Contact = () => {
               {/* Button */}
               <motion.button
                 type="submit"
+                disabled={isSending}
                 whileHover={{ scale: 1, boxShadow: "-4px 4px 15px rgba(255, 255, 255, 0.4)" }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full bg-white text-black font-black tracking-widest uppercase rounded-full py-4 text-sm transition-all duration-300 flex items-center justify-center gap-3 group mt-4 relative overflow-hidden"
+                className={`w-full bg-white text-black font-black tracking-widest uppercase rounded-full py-4 text-sm transition-all duration-300 flex items-center justify-center gap-3 group mt-4 relative overflow-hidden ${isSending ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
-                <span className="relative z-10">SEND MESSAGE</span>
-                <span className="transform group-hover:translate-x-1 transition-transform duration-300 relative z-10">→</span>
+                <span className="relative z-10 w-full text-center">
+                  {isSending ? 'SENDING...' : (status === 'success' ? 'SENT SUCCESSFULLY!' : (status === 'error' ? 'FAILED TO SEND' : 'SEND MESSAGE'))}
+                </span>
+                {!isSending && status !== 'success' && status !== 'error' && (
+                  <span className="transform group-hover:translate-x-1 transition-transform duration-300 relative z-10">→</span>
+                )}
               </motion.button>
+              {status === 'error' && (
+                <p className="text-red-500 text-xs text-center mt-2">
+                  Something went wrong. Please try again or email us directly.
+                </p>
+              )}
             </form>
 
             {/* Contact Details Footnote - Added Phone/WhatsApp/Mail closer to button */}
